@@ -26,8 +26,8 @@ class ShoeImage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               boxShadow: const [
                 BoxShadow(
-                  // color: Color(0xffEAA14E),
-                  color: Colors.black26,
+                  color: Color(0xffEAA14E),
+                  // color: Colors.black26,
                   offset: Offset(40, 0.0),
                   blurRadius: 30,
                   spreadRadius: 4

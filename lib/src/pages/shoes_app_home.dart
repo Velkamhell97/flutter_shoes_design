@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
 
 import '../models/shoe.dart';
@@ -34,6 +35,9 @@ class ShoesAppHome extends StatelessWidget {
       // AppBar
       //----------------------------
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark
+        ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         title: const Text('For You'),

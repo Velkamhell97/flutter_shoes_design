@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shoes_app/src/models/shoe.dart';
@@ -45,9 +45,15 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
       curve: _buttonInterval
     );
 
+    //-Al parecer para notar el cambio es necesario un pequeño delay (min 300 ??)
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light)
+      );
+    });
+
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _controller.forward(from: 0.0);
-      // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     });
   }
 
