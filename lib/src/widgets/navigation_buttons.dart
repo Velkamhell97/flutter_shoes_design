@@ -21,7 +21,7 @@ class _NavigationButtonsState extends State<NavigationButtons> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _button.entries.map((entry) {
-        //Utilizar este en vez de iconbutton da un efecto de sombra al hacer click
+        /// Utilizar este en vez de IconButton da un efecto de sombra al hacer click
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: const CircleBorder(),

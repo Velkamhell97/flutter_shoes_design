@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoes_app/src/models/shoe.dart';
+
+import '../models/shoe.dart';
 
 class ShoeInfo extends StatelessWidget {
   final Shoe shoe;

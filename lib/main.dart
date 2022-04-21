@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-import 'src/models/shoe_notifier.dart';
+import 'src/providers/shoe_provider.dart';
 import 'src/pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
-
-  timeDilation = 1;
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  //-Se usa provider para no tener que pasar tanto a los hijos un notifier
+  /// Se usa provider para no tener que pasar tanto a los hijos un notifier
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ShoeNotifier(),
+      create: (context) => ShoeProvider(),
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
               color: Colors.black,

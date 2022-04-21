@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'package:shoes_app/src/models/shoe.dart';
-import 'package:shoes_app/src/models/shoe_notifier.dart';
-import 'package:shoes_app/src/widgets/widgets.dart';
+import '../models/shoe.dart';
+import '../providers/shoe_provider.dart';
+import '../widgets/widgets.dart';
 
 class ShoesAppDetail extends StatefulWidget {
   final Shoe shoe;
@@ -44,16 +44,15 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
       parent: _controller,
       curve: _buttonInterval
     );
-
-    //-Al parecer para notar el cambio es necesario un pequeño delay (min 300 ??)
-    Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light)
-      );
-    });
-
+    
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _controller.forward(from: 0.0);
+
+      /// Por alguna razon para que funcione toca esperar un momento o utilizar un AnotatedRegion envolviendo
+      /// El Screen pero no se sabe si sea mu eficiente
+      Future.delayed(const Duration(milliseconds: 300), () => SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light)
+      ));
     });
   }
 
@@ -62,6 +61,13 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
     _controller.dispose();
     super.dispose();
   }
+
+  static const _colors = [
+    Color(0xff364D56),
+    Color(0xff2099F1),
+    Color(0xffFFAD29),
+    Color(0xffC6D642),
+  ];
 
   void _fillIntervals(){
     for (int i = 0; i < _colors.length; i++) {
@@ -77,22 +83,13 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
     final buttonBegin = _duration - _buttonDuration;
     _buttonInterval = Interval( 
       buttonBegin/_duration,
-      1.0, //siempre termina en 1
+      1.0,
       curve: Curves.bounceOut
     );
   }
 
-  static const _colors = [
-    Color(0xff364D56),
-    Color(0xff2099F1),
-    Color(0xffFFAD29),
-    Color(0xffC6D642),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final shoeProvider = Provider.of<ShoeNotifier>(context, listen: false);
-
     return Scaffold(
       body: Column(
         children: [
@@ -104,6 +101,7 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
             child: SizedBox(
               height: 300,
               child: Stack(
+                fit: StackFit.expand,
                 children: [
                   ShowViewerDetail(shoe: widget.shoe),
                   const Align(
@@ -136,6 +134,7 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
                     animation: _controller,
                     builder: (context, child) {
                       final value = _buttonAnimation.value;
+                      /// Tambien se puede definir una animacion de subida y otra de bajada
                       final slide = value < 0.5 ? value : 1 - value;
             
                       return ShoePrice(
@@ -143,7 +142,7 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
                         buttonPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                         shoe: widget.shoe, 
                         onTapBuy: () => Navigator.of(context).pop(),
-                        animation: -slide * 25,
+                        animation: -slide * 25.0,
                       );
                     },
                   ),
@@ -160,6 +159,11 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
                         //----------------------------
                         // Shoe Palette
                         //----------------------------
+                        /// Este widget se utiliza principalmente porque dentro de una fila los ultimos elementos
+                        /// siempre estaran por encima de los anteriores, es decir que en la animacion los colores
+                        /// finales siempre pasaran por delante de los anteriores, al rotar por completo el widget
+                        /// conseguimos que los finales sean los primeros estando estos por delante y pasando los
+                        /// anterioes (que ahora son siguientes) por detras
                         RotatedBox(
                           quarterTurns: 2,
                           child: Row(
@@ -179,7 +183,7 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
                                   );
                                 },
                                 child: GestureDetector(
-                                  onTap: () => shoeProvider.selectedColor = reversedIndex,
+                                  onTap: () => context.read<ShoeProvider>().selectedColor = reversedIndex,
                                   child: Align(
                                     widthFactor: 0.65,
                                     child: CircleAvatar(
@@ -191,19 +195,22 @@ class _ShoesAppDetailState extends State<ShoesAppDetail> with SingleTickerProvid
                             }),
                           ),
                         ),
-
+                    
                         //----------------------------
                         // Shoe Disable Button
                         //----------------------------
+                        /// Si usa el onPress en null no se puede cambiar el color en disabled
                         IgnorePointer(
                           child: Opacity(
                             opacity: 0.5,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.orange,
                                 shape: const StadiumBorder(),
+                                primary: Colors.orange.shade300,
+                                /// La opacidad se baja mucho
+                                // onSurface: Colors.orange
                               ),
-                              onPressed: (){}, 
+                              onPressed: () {}, 
                               child: const Text('More ralted items')
                             ),
                           ),

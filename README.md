@@ -1,16 +1,15 @@
-# shoes_app
+# Shoes App
 
-A new Flutter project.
+Shoe store design, you can switch between different sizes and colors, as well as having nice transitions between screens
 
-## Getting Started
+Includes:
 
-This project is a starting point for a Flutter application.
+* Hero Animations with flightShuttleBuilder
+* Responsive Size Buttons using Wrap and ConstrainedBox
+* Provider as State Management
+* Explicit Animations (AnimatedController & FooTransition)
+* Mockup To Code.
 
-A few resources to get you started if this is your first Flutter project:
+Demo: 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Shoes App](https://res.cloudinary.com/dwzr9lray/image/upload/v1650514119/flutter_repos/Flutter%20Intermediate/10.%20Shoes%20App/shoes_app.gif)

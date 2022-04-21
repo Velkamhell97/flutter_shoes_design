@@ -12,13 +12,12 @@ class ShoesAppHome extends StatelessWidget {
   static const _shoe = Shoe.shoe;
 
   void _navigate(BuildContext context) {
-    
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
           return const ShoesAppDetail(shoe: _shoe);
 
-          //*Para cambiar el status bar entre pantallas
+          /// Para cambiar el status bar entre pantallas
           // return const AnnotatedRegion<SystemUiOverlayStyle>(
           //   value: SystemUiOverlayStyle.light,
           //   child: ShoesAppDetail(shoe: _shoe)
@@ -55,6 +54,7 @@ class ShoesAppHome extends StatelessWidget {
           //----------------------------
           Expanded(
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: Column(
                 children: [
@@ -92,9 +92,9 @@ class ShoesAppHome extends StatelessWidget {
               color: Colors.white,
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 20,
-                  spreadRadius: 2.5
+                  color: Color(0x24000000),
+                  blurRadius: 10,
+                  spreadRadius: 1,
                 )
               ]
             ),
