@@ -15,13 +15,13 @@ class SizeButtons extends StatelessWidget {
       builder: (context, constrains) {
         /// Se podria pasar como parametro restando paddings al size.width pero esto lo hace mas autonomo
         final width = constrains.maxWidth;
+        
+        final buttonWidth = width / _sizes.length;
+        /// El gap es proporcional al tamaño de los botones que a su vez es proporcional al numero de botones
+        final gap = buttonWidth * 0.12;
 
         return Consumer<ShoeProvider>(
           builder: (_, shoe, __) {
-            final buttonWidth = width / _sizes.length;
-            /// El gap es proporcional al tamaño de los botones que a su vez es proporcional al numero de botones
-            final gap = buttonWidth * 0.12;
-
             /// El widget Wrap consume mas recursos que el Row, sin embargo como son pocos elementos no hay problema
             /// otra ventaja esque es un poco mas transparente la funcionalidad, mientras que con el row, se debe
             /// insertar un row anidado y muchos flexible ademas, de que el spacing que se tiene aqui como propiedad
